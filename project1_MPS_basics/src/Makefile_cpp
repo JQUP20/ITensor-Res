@@ -1,0 +1,25 @@
+# Makefile for ITensor C++ programs
+
+# ITensor路径（需要根据实际安装路径修改）
+ITENSOR_DIR=$(HOME)/local/itensor/ITensor
+
+# 编译器
+CXX=g++
+CXXFLAGS=-std=c++17 -O2 -I$(ITENSOR_DIR)
+LDFLAGS=-L$(ITENSOR_DIR)/lib -litensor
+
+# 目标
+PROGRAMS=mps_ising
+
+all: $(PROGRAMS)
+
+mps_ising: mps_ising.cc
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
+
+clean:
+	rm -f $(PROGRAMS) *.o *.dat
+
+run: mps_ising
+	./mps_ising 40 0.5 64
+
+.PHONY: all clean run
